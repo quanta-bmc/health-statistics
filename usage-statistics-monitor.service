@@ -1,0 +1,11 @@
+[Unit]
+Description = monitor cpu, memory, disk usage utilization
+After=phosphor-hostEvent-monitor.service
+
+[Service]
+ExecStart=/usr/bin/usage-statistics-monitor.sh
+Restart=always
+StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,11 @@
+[Unit]
+Description =  monitor CurrentHostState when property changed
+After=phosphor-hostEvent-monitor.service
+
+[Service]
+ExecStart=/usr/bin/restart-cause-monitor.sh
+Restart=always
+StandardOutput=syslog
+
+[Install]
+WantedBy=multi-user.target
