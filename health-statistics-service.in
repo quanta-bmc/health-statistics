@@ -1,0 +1,11 @@
+[Unit]
+Description=BMC Health Statistics
+
+[Service]
+ExecStart=@bindir@/health-statistics
+Type=dbus
+BusName=xyz.openbmc_project.HealthStatistics
+SyslogIdentifier=health-statistics
+
+[Install]
+WantedBy=multi-user.target
