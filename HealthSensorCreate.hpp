@@ -1,14 +1,6 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
-#include <sdeventplus/clock.hpp>
-#include <sdeventplus/event.hpp>
-#include <sdeventplus/utility/timer.hpp>
-#include <xyz/openbmc_project/Sensor/Threshold/Critical/server.hpp>
-#include <xyz/openbmc_project/Sensor/Threshold/Warning/server.hpp>
-#include <xyz/openbmc_project/Sensor/Value/server.hpp>
 
-#include <deque>
-#include <map>
 #include <string>
 
 namespace health

@@ -11,7 +11,7 @@ tmp_cpu_file="/tmp/cupUsage.txt"
 tmp_ram_file="/tmp/ramUsage.txt"
 tmp_fash_file="/tmp/flashUsage.txt"
 
-service_name='xyz.openbmc_project.HostEventMon'
+service_name='xyz.openbmc_project.HealthStatistics'
 obj_path1='/xyz/openbmc_project/sensors/utilization/CPU'
 obj_path2='/xyz/openbmc_project/sensors/utilization/Memory'
 obj_path3='/xyz/openbmc_project/sensors/utilization/Storage'

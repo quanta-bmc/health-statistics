@@ -1,10 +1,6 @@
 #include "config.h"
-
 #include "HealthSensorCreate.hpp"
-
-
 #include <phosphor-logging/log.hpp>
-#include <sdeventplus/event.hpp>
 
 #include <fstream>
 #include <iostream>
@@ -15,11 +11,6 @@
 #include <boost/asio/spawn.hpp>
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
-
-extern "C"
-{
-#include <sys/sysinfo.h>
-}
 
 static constexpr bool DEBUG = true;
 
@@ -133,7 +124,6 @@ void HealthSensor::createHealthSensors()
     // test object server
     conn->request_name(HEALTH_BUS_NAME);
     auto server = sdbusplus::asio::object_server(conn);
-    //std::string host_event[4] = {"current_host_state", "requested_host_transition", "restart_cause", "Storage"};
     std::string ifaceobjpath = "";
 
     for (auto& cfg : sensorConfigs)
@@ -153,18 +143,20 @@ void HealthSensor::createHealthSensors()
         
         if (cfg.type == "utilization")
         {
-            // test generic properties
             iface->register_property("Value", static_cast<double>(0),
+                             sdbusplus::asio::PropertyPermission::readWrite);
+            iface->register_property("Unit", std::string("xyz.openbmc_project.Sensor.Value.Unit.Percent"),
                              sdbusplus::asio::PropertyPermission::readWrite);
         }
         else 
         {
             iface->register_property("Value", std::string("n/a"),
                              sdbusplus::asio::PropertyPermission::readWrite);
+            iface->register_property("Unit", std::string("xyz.openbmc_project.Sensor.Value.Unit.Percent"), //no Unit for OEM
+                             sdbusplus::asio::PropertyPermission::readWrite);
         }
 
-        iface->register_property("Unit", std::string("xyz.openbmc_project.Sensor.Value.Unit.DegreesC"),
-                             sdbusplus::asio::PropertyPermission::readWrite);
+        
         iface->initialize();
     }
     io.run();
