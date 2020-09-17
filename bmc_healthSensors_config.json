@@ -7,11 +7,9 @@
     {
         "Critical":
         {
-
-        },
-        "Warning":
-        {
-
+            "Value": 85.0,
+            "Log": true,
+            "Target": "reboot.target"
         }
     }
   },
@@ -23,11 +21,9 @@
     {
         "Critical":
         {
-
-        },
-        "Warning":
-        {
-
+            "Value": 85.0,
+            "Log": true,
+            "Target": "reboot.target"
         }
     }
   },
@@ -39,11 +35,15 @@
     {
         "Critical":
         {
-
+            "Value": 90.0,
+            "Log": true,
+            "Target": "reboot.target"
         },
         "Warning":
         {
-
+          "Value": 80.0,
+          "Log": false,
+          "Target": "systemd unit file"
         }
     }
   },
