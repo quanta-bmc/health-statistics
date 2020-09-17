@@ -12,7 +12,7 @@
 #include <sdbusplus/asio/connection.hpp>
 #include <sdbusplus/asio/object_server.hpp>
 
-static constexpr bool DEBUG = true;
+static constexpr bool DEBUG = false;
 
 namespace health
 {
@@ -68,11 +68,14 @@ void HealthSensor::getConfigData(Json& data, HealthSensorConfig& cfg)
     cfg.windowSize = data.value("Window_size", 1);
 
     auto threshold = data.value("Threshold", empty);
+    cfg.criticalAlarm = false;
+    cfg.warningAlarm = false;
     if (!threshold.empty())
     {
         auto criticalData = threshold.value("Critical", empty);
         if (!criticalData.empty())
         {
+            cfg.criticalAlarm = true;
             cfg.criticalHigh = criticalData.value("Value", 0);
             cfg.criticalLog = criticalData.value("Log", true);
             cfg.criticalTgt = criticalData.value("Target", "");
@@ -80,6 +83,7 @@ void HealthSensor::getConfigData(Json& data, HealthSensorConfig& cfg)
         auto warningData = threshold.value("Warning", empty);
         if (!warningData.empty())
         {
+            cfg.warningAlarm = true;
             cfg.warningHigh = warningData.value("Value", 0);
             cfg.warningLog = warningData.value("Log", true);
             cfg.warningTgt = warningData.value("Target", "");
@@ -147,6 +151,22 @@ void HealthSensor::createHealthSensors()
                              sdbusplus::asio::PropertyPermission::readWrite);
             iface->register_property("Unit", std::string("xyz.openbmc_project.Sensor.Value.Unit.Percent"),
                              sdbusplus::asio::PropertyPermission::readWrite);
+
+            std::shared_ptr<sdbusplus::asio::dbus_interface> ifaceCritical = server.add_interface(ifaceobjpath, "xyz.openbmc_project.Sensor.Threshold.Critical");
+            ifaceCritical->register_property("CriticalAlarmHigh", cfg.criticalAlarm, sdbusplus::asio::PropertyPermission::readWrite);
+            ifaceCritical->register_property("CriticalHigh", cfg.criticalAlarm ? cfg.criticalHigh : static_cast<double>(0), sdbusplus::asio::PropertyPermission::readWrite);
+            //no need CriticalAlarmLow
+            ifaceCritical->register_property("CriticalAlarmLow", false, sdbusplus::asio::PropertyPermission::readWrite);
+            ifaceCritical->register_property("CriticalLow", static_cast<double>(0), sdbusplus::asio::PropertyPermission::readWrite);
+            ifaceCritical->initialize();
+
+            std::shared_ptr<sdbusplus::asio::dbus_interface> ifaceWarning =  server.add_interface(ifaceobjpath, "xyz.openbmc_project.Sensor.Threshold.Warning");
+            ifaceWarning->register_property("WarningAlarmHigh", cfg.warningAlarm, sdbusplus::asio::PropertyPermission::readWrite);
+            ifaceWarning->register_property("WarningHigh", cfg.warningAlarm ? cfg.warningHigh : static_cast<double>(0), sdbusplus::asio::PropertyPermission::readWrite);
+            //no need WarningAlarmLow
+            ifaceWarning->register_property("WarningAlarmLow", false, sdbusplus::asio::PropertyPermission::readWrite);
+            ifaceWarning->register_property("WarningLow", static_cast<double>(0), sdbusplus::asio::PropertyPermission::readWrite);
+            ifaceWarning->initialize();
         }
         else 
         {

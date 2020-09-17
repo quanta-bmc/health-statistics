@@ -22,6 +22,8 @@ struct HealthSensorConfig
     bool warningLog;
     std::string criticalTgt;
     std::string warningTgt;
+    bool criticalAlarm;
+    bool warningAlarm;
 };
 
 class HealthSensor
