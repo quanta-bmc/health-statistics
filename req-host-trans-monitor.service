@@ -1,6 +1,6 @@
 [Unit]
 Description =  monitor CurrentHostState when property changed
-After=phosphor-hostEvent-monitor.service
+After=health-statistics.service
 
 [Service]
 ExecStart=/usr/bin/req-host-trans-monitor.sh

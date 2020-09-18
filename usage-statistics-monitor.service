@@ -1,6 +1,6 @@
 [Unit]
 Description = monitor cpu, memory, disk usage utilization
-After=phosphor-hostEvent-monitor.service
+After=health-statistics.service
 
 [Service]
 ExecStart=/usr/bin/usage-statistics-monitor.sh
