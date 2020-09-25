@@ -99,11 +99,11 @@ mapper wait $obj_path3
 while [ $flag == 0 ]
 do 
 	#CPU usage statistics
-	#cpuUtil
+	cpuUtil
 	#RAM usage statistics
-	#ramUtil
+	ramUtil
 	#flash usage statistics 
-	#dfUtil
+	dfUtil
 		
 	for ((a=sleep_sec;a>=0;a--))
 	do	
