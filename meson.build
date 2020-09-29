@@ -50,28 +50,7 @@ configure_file(
   install: true,
   install_dir: systemd.get_pkgconfig_variable('systemdsystemunitdir'))
 
-configure_file(
-  input: 'restart-cause-monitor.service',
-  output:'restart-cause-monitor.service',
-  configuration: conf_data,
-  install: true,
-  install_dir: systemd.get_pkgconfig_variable('systemdsystemunitdir'))
-
-configure_file(
-  input: 'req-host-trans-monitor.service',
-  output:'req-host-trans-monitor.service',
-  configuration: conf_data,
-  install: true,
-  install_dir: systemd.get_pkgconfig_variable('systemdsystemunitdir'))
-
-configure_file(
-  input: 'curr-host-state-monitor.service',
-  output:'curr-host-state-monitor.service',
-  configuration: conf_data,
-  install: true,
-  install_dir: systemd.get_pkgconfig_variable('systemdsystemunitdir'))
-
-install_data(['curr-host-state-monitor.sh', 'restart-cause-monitor.sh', 'req-host-trans-monitor.sh', 'usage-statistics-monitor.sh'],
+install_data(['usage-statistics-monitor.sh'],
              install_dir : '/usr/bin',
              install_mode: 'rwxr-xr-x'
              )
